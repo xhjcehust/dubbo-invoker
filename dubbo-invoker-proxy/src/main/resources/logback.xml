@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+scan：当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true。
+scanPeriod：设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒当scan为true时，此属性生效。默认的时间间隔为1分钟。
+debug：当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。
+-->
+<configuration scan="true" debug="false">
+
+    <!-- 定义日志的根目录 log.dir是omad传入的启动参数  -->
+    <property name="LOG_HOME" value="logs" />
+    <!-- 日志查询平台格式要求 见 http://doc.hz.netease.com/pages/viewpage.action?pageId=53583307-->
+    <!-- 求修改appName appName不能有中划线 -->
+    <property name="GLOBAL_LOG_PATTERN" value="%d - msgconsole - %c - %p [%t] [%C{0}:%M:%L] - %m%n" />
+    <!-- 控制台日志，同时会打印在catalina日志中 -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${GLOBAL_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <logger name="org.github.xhjcehust.dubbo" level="INFO" additivity="false">
+        <appender-ref ref="consoleAppender" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="consoleAppender"/>
+    </root>
+    
+</configuration>
