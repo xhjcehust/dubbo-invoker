@@ -6,7 +6,7 @@
 	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <dubbo:application name="dubbo-invoker-provider">
-        <!--<dubbo:parameter key="qos.port" value="33333"/>-->
+        <dubbo:parameter key="qos.port" value="22222"/>
     </dubbo:application>
 
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
