@@ -27,25 +27,30 @@ public class DubboInvoker {
     @Value("${application.invoker.name}")
     private String appName;
 
+    private final static String SAMPLE_REQ = "{\n" +
+            "    \"interfaceName\": \"org.github.xhjcehust.dubbo.provider.api.EchoService\",\n" +
+            "    \"methodName\": \"echoPojo\",\n" +
+            "    \"argTypes\": [\n" +
+            "        \"org.github.xhjcehust.dubbo.provider.model.Pojo\"\n" +
+            "    ],\n" +
+            "    \"argObjects\": [\n" +
+            "        {\n" +
+            "            \"count\": 1,\n" +
+            "            \"value\": \"val\"\n" +
+            "        }\n" +
+            "    ],\n" +
+            "    \"version\": \"1.0\",\n" +
+            "    \"group\": \"test\",\n" +
+            "    \"attachments\": {\n" +
+            "        \"key\": \"value\"\n" +
+            "    }\n" +
+            "}";
+
     @RequestMapping("/index")
     @ResponseBody
     public Object index(@RequestBody(required = false) DubboInvokerParam param) {
         if (param == null) {
-            return "{\n" +
-                    "\t\"interfaceName\": \"org.github.xhjcehust.dubbo.provider.api.EchoService\",\n" +
-                    "\t\"methodName\": \"echoString\",\n" +
-                    "\t\"argTypes\": [\n" +
-                    "\t\t\"java.lang.String\"\n" +
-                    "\t],\n" +
-                    "\t\"argObjects\": [\n" +
-                    "      \"abcd\"\n" +
-                    "\t],\n" +
-                    "  \"version\": \"1.0\",\n" +
-                    "  \"group\": \"test\",\n" +
-                    "  \"attachments\": {\n" +
-                    "  \t\"key\": \"value\"\n" +
-                    "  }\n" +
-                    "}";
+            return SAMPLE_REQ;
         }
 
         String errMsg = checkFields(param);
@@ -59,11 +64,11 @@ public class DubboInvoker {
 
     private String checkFields(DubboInvokerParam param) {
         if (param.getInterfaceName() == null) {
-            return "interfaceName is Required";
+            return "interfaceName is Required, sample request = \n" + SAMPLE_REQ;
         }
 
         if (param.getMethodName() == null) {
-            return "methodName is Required";
+            return "methodName is Required, sample request = \n" + SAMPLE_REQ;
         }
 
         if (param.getArgTypes() == null) {
@@ -75,7 +80,7 @@ public class DubboInvoker {
         }
 
         if (param.getArgTypes().length != param.getArgObjects().length) {
-            return "paramTypes.length is not equal to paramArgs.length";
+            return "paramTypes.length is not equal to paramArgs.length, sample request = \n" + SAMPLE_REQ;
         }
 
         return null;
