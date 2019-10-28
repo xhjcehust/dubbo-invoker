@@ -10,10 +10,7 @@
 								  ignore-unresolvable="true" />
 	<context:annotation-config />
 	<context:component-scan base-package="org.github.xhjcehust.dubbo">
-		<context:exclude-filter type="annotation"
-								expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
-	<context:component-scan base-package="org.github.xhjcehust.dubbo" />
-
 
 </beans>
