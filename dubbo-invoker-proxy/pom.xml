@@ -11,6 +11,14 @@
 
     <artifactId>dubbo-invoker-proxy</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.github.xhjcehust</groupId>
+            <artifactId>dubbo-invoker-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>

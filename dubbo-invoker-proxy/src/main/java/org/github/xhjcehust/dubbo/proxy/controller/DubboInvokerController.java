@@ -1,17 +1,12 @@
 package org.github.xhjcehust.dubbo.proxy.controller;
 
-import org.apache.dubbo.config.ApplicationConfig;
-import org.apache.dubbo.config.ReferenceConfig;
-import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.rpc.RpcContext;
-import org.apache.dubbo.rpc.service.GenericService;
+import org.github.xhjcehust.dubbo.proxy.api.DubboInvokerService;
 import org.github.xhjcehust.dubbo.proxy.model.DubboInvokerParam;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import java.util.Map;
 
 /**
  * @author xiaohengjin<xiaohengjin@corp.netease.com>
@@ -19,13 +14,10 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/dubboInvoker")
-public class DubboInvoker {
+public class DubboInvokerController {
 
-    @Value("${dubbo.registry.address}")
-    private String registryAddress;
-
-    @Value("${application.invoker.name}")
-    private String appName;
+    @Autowired
+    private DubboInvokerService dubboInvokerService;
 
     private final static String SAMPLE_REQ = "{\n" +
             "    \"interfaceName\": \"org.github.xhjcehust.dubbo.provider.api.EchoService\",\n" +
@@ -59,7 +51,7 @@ public class DubboInvoker {
             return errMsg;
         }
 
-        return doInvoke(param);
+        return dubboInvokerService.invoke(param);
     }
 
     private String checkFields(DubboInvokerParam param) {
@@ -86,27 +78,4 @@ public class DubboInvoker {
         return null;
     }
 
-
-    private Object doInvoke(DubboInvokerParam param) {
-
-        ReferenceConfig<GenericService> reference = new ReferenceConfig<GenericService>();
-        reference.setApplication(new ApplicationConfig(appName));
-
-        reference.setInterface(param.getInterfaceName());
-        reference.setVersion(param.getVersion());
-        reference.setGeneric(true);
-        reference.setGroup(param.getGroup());
-
-        RegistryConfig registry = new RegistryConfig();
-        registry.setAddress(registryAddress);
-        reference.setRegistry(registry);
-
-        GenericService genericService = reference.get();
-
-        Map<String, String> attachments = param.getAttachments();
-        if (attachments != null) {
-            RpcContext.getContext().setAttachments(attachments);
-        }
-        return genericService.$invoke(param.getMethodName(), param.getArgTypes(), param.getArgObjects());
-    }
 }
