@@ -18,7 +18,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring-boot.version>2.5.12</spring-boot.version>
-		<dubbo.version>2.7.1</dubbo.version>
+		<dubbo.version>2.7.21</dubbo.version>
 		<zookeeper.version>3.4.14</zookeeper.version>
 		<zkclient.version>0.2</zkclient.version>
 		<curator.version>2.12.0</curator.version>
